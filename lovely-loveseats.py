@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 class Furniture:
     '''An inventory item with a name, description, and price.'''
     def __init__(self, name, description, price):
@@ -14,15 +16,23 @@ class ShoppingCart:
     
     def __init__(self, customer_id=""):
         self.customer_id = customer_id
-        self.contents = []
+        self.contents = defaultdict(int)
         self.total = 0
         self.taxes = 0
 
-    def add_item(self, item):
-        self.contents.append(item)
-        self.total += item.price
-        self.taxes += item.price * self.sales_tax
+    def add_item(self, item, quantity = 1):
+        self.contents[item] += quantity
 
+    def remove_item(self, item, quantity = 1):
+        self.contents[item] -= quantity
+        if self.contents[item] <= 0:
+            del self.contents[item]
+
+    def _update_total(self):
+        for item, quantity in self.contents.items():
+            self.total += item.price * quantity
+            self.taxes += item.price * quantity * self.sales_tax
+        
     def __str__(self):
         result = ""
         for item in self.contents:
@@ -30,6 +40,7 @@ class ShoppingCart:
         return result
 
     def print_receipt(self):
+        self._update_total()
         print(self.customer_id, "Items:\n")
         print(self, end="")
         print(self.customer_id, "Total:")
@@ -51,6 +62,8 @@ x 28 inches deep. Black.", 180.50)
                  }
     customer_one = ShoppingCart("Customer One")
     customer_one.add_item(inventory["Lovely Loveseat"])
-    customer_one.add_item(inventory["Luxurious Lamp"])
+    customer_one.add_item(inventory["Luxurious Lamp"], 2)
+    customer_one.remove_item(inventory["Lovely Loveseat"])
+    print(customer_one.contents)
     customer_one.print_receipt()
     
