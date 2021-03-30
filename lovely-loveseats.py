@@ -35,8 +35,9 @@ class ShoppingCart:
         
     def __str__(self):
         result = ""
-        for item in self.contents:
-            result += str(item) + '\n\n'
+        for item, quantity in self.contents.items():
+            result += str(item) + '\n' + f'Price: ${item.price}, Quantity: {quantity}'+ \
+                      '\n\n'
         return result
 
     def print_receipt(self):
