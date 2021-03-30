@@ -36,7 +36,7 @@ class ShoppingCart:
     def __str__(self):
         result = ""
         for item, quantity in self.contents.items():
-            result += str(item) + '\n' + f'Price: ${item.price}, Quantity: {quantity}'+ \
+            result += str(item) + '\n' + f'Price: ${item.price;.2f}, Quantity: {quantity}'+ \
                       '\n\n'
         return result
 

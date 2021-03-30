@@ -1,0 +1,1 @@
+A Codecademy practice project for generating receipts for furniture purchases.
